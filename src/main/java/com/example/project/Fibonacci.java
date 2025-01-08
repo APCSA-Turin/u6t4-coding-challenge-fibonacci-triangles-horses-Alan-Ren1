@@ -1,6 +1,7 @@
 package com.example.project;
 
 public class Fibonacci {
+  public final char[] length = null;
   // instance variable
   private int[] sequence;
 
