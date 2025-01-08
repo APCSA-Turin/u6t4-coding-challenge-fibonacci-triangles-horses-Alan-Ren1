@@ -2,59 +2,57 @@ package com.example.project;
 
 public class TriangleCollection {
 
-    // array of Triangles
+    // Array to store the triangles
     private Triangle[] collection;
-  
-    // Constructor: initialize collection array with the number of
-    // Triangle objects specified by numTriangles, with the first
-    // Triangle in the collection having vertices at Points:
-    // (-startx, 0), (0, startY), (startX, 0)
-    //
-    // Then, each subsequent Triangle object in the collection (up to
-    // numTriangles) should be created with same first and second vertices,
-    // (-startX, 0) and (0, startY), but with a different third vertex located
-    // at (startX - i, 0), where i is the index in the collections array where
-    // the Triangle object is located
-    // 
-    // For example, creating a TriangleCollection with numTriangles = 6,
-    // startX = 4, and startY = 7 would yield a collections array containing
-    // 6 Triangles with the following vertices:
-    // Triangle 0: (-4, 0), (0, 7), (4, 0)
-    // Triangle 1: (-4, 0), (0, 7), (3, 0)
-    // Triangle 2: (-4, 0), (0, 7), (2, 0)
-    // Triangle 3: (-4, 0), (0, 7), (1, 0)
-    // Triangle 3: (-4, 0), (0, 7), (0, 0)
-    // Triangle 3: (-4, 0), (0, 7), (-1, 0)
-  
-    // PRECONDITION: numTriangles >= 2
+
+    // Constructor for creating the triangle collection
     public TriangleCollection(int numTriangles, int startX, int startY) {
-      /* IMPLEMENT ME */
+        this.collection = new Triangle[numTriangles];
+        for (int i = 0; i < numTriangles; i++) {
+            // Initialize points for each triangle
+            Point p1 = new Point(-startX, 0);          // First point at (-startX, 0)
+            Point p2 = new Point(0, startY);           // Second point at (0, startY)
+            Point p3 = new Point(startX - i, 0);       // Third point shifts based on index
+            this.collection[i] = new Triangle(p1, p2, p3);  // Create and add the triangle
+        }
     }
-  
-    // Calculate and return the sum of the perimeters of
-    // all Triangles in the collection
+
+    // Calculate and return the sum of the perimeters of all triangles
     public double totalPerimeter() {
-      /* IMPLEMENT ME */
+        double sum = 0;
+        for (int i = 0; i < collection.length; i++) {
+            sum += collection[i].perimeter();  // Add perimeter of each triangle
+        }
+        return sum;
     }
-  
-    // adds increment to both the x and y coordinates of each of the
-    // three Points in every Triangle in the collections array
-    // ADD GETTER AND SETTER METHODS TO OTHER CLASSES AS NECESSARY
+
+    // Shift the triangles by increment, updating only the x-coordinates
     public void shiftTriangles(int increment) {
-      /* IMPLEMENT ME */
+        for (int i = 0; i < collection.length; i++) {
+            Triangle triangle = collection[i];
+            Point[] vertices = triangle.getVertices();  // Get the vertices of the triangle
+
+            // Shift only the x-coordinate by the increment
+            for (int j = 0; j < vertices.length; j++) {
+                int newX = vertices[j].getX() + increment;  // Shift x-coordinate
+                int newY = vertices[j].getY();               // Keep y-coordinate unchanged
+                vertices[j] = new Point(newX, newY);         // Reassign the shifted points
+            }
+
+            // After shifting, update the triangle with the new points
+            collection[i] = new Triangle(vertices[0], vertices[1], vertices[2]);
+        }
     }
-  
-    // returns a String that contains each Triangle in the 
-    // collection on a new line; for example, the string
-    // representing a collection containing three
-    // Triangles should look like this when printed:
-    //
-    // "[(1, 5), (5, 12), (9, 5)]
-    //  [(1, 5), (5, 12), (8, 5)]
-    //  [(1, 5), (5, 12), (7, 5)]"
+
+    // Return a string containing each triangle in the collection on a new line
     public String triangleCollectionInfo() {
-      /* IMPLEMENT ME */
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < collection.length; i++) {
+            sb.append(collection[i].triangleInfo());  // Get the triangle's info as a string
+            if (i < collection.length - 1) {
+                sb.append("\n");  // Add line break between triangles
+            }
+        }
+        return sb.toString();
     }
-  }
-  
-  
+}
