@@ -26,7 +26,6 @@ public class TriangleCollection {
         return sum;
     }
 
-    // Shift the triangles by increment, updating only the x-coordinates
     public void shiftTriangles(int increment) {
         for (int i = 0; i < collection.length; i++) {
             Triangle triangle = collection[i];
@@ -35,7 +34,7 @@ public class TriangleCollection {
             // Shift only the x-coordinate by the increment
             for (int j = 0; j < vertices.length; j++) {
                 int newX = vertices[j].getX() + increment;  // Shift x-coordinate
-                int newY = vertices[j].getY();               // Keep y-coordinate unchanged
+                int newY = vertices[j].getY() + increment; //Shift y-coordinate
                 vertices[j] = new Point(newX, newY);         // Reassign the shifted points
             }
 
@@ -49,7 +48,7 @@ public class TriangleCollection {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < collection.length; i++) {
             sb.append(collection[i].triangleInfo());  // Get the triangle's info as a string
-            if (i < collection.length - 1) {
+            if (i <= collection.length) {
                 sb.append("\n");  // Add line break between triangles
             }
         }
